@@ -12,7 +12,8 @@ namespace WinFormsMVP.Model
     {
         private readonly string _xmlFilePath;
         private readonly XmlSerializer _serializer = new XmlSerializer(typeof(List<Customer>));
-        private readonly Lazy<List<Customer>> _customers;
+        private Lazy<List<Customer>> _customers;
+        private List<Customer> list;
 
         public CustomerXmlRepository(string fullPath)
         {
@@ -26,16 +27,37 @@ namespace WinFormsMVP.Model
                         return (List<Customer>)_serializer.Deserialize(reader);
                     }
                 });
+            list= new List<Customer>();
+            using (var reader = new StreamReader(_xmlFilePath))
+            {
+                list=(List<Customer>)_serializer.Deserialize(reader);
+            }
         }
+
+        public void AddCustomer(Customer customer)
+        {
+            list.Add(customer);
+            SaveCustomerList(list);
+            _customers = null;
+            _customers = new Lazy<List<Customer>>(
+                () =>
+                {
+                    using (var reader = new StreamReader(_xmlFilePath))
+                    {
+                        return (List<Customer>)_serializer.Deserialize(reader);
+                    }
+                });
+        }
+
         public void CreateCustomerXmlStub()
         {
-            var list = new List<Customer>
-            {
-                new Customer {Name="Joe",Address="Moscow",Phone="+7899433232"},
-                new Customer {Name="Tom",Address="NewYork",Phone="+7899345435"},
-                new Customer {Name="John",Address="London",Phone="+784353453453"}
-            };
-            SaveCustomerList(list);
+            //var list = new List<Customer>
+            //{
+            //    new Customer {Name="Joe",Address="Moscow",Phone="+7899433232"},
+            //    new Customer {Name="Tom",Address="NewYork",Phone="+7899345435"},
+            //    new Customer {Name="John",Address="London",Phone="+784353453453"}
+            //};
+            //SaveCustomerList(list);
         }
 
         public IEnumerable<Customer> getAllCustomers()

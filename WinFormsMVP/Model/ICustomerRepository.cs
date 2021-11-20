@@ -11,5 +11,6 @@ namespace WinFormsMVP.Model
         IEnumerable<Customer> getAllCustomers();
         Customer GetCustomer(int id);
         void SaveCustomer(int id,Customer customer);
+        void AddCustomer(Customer customer);
     }
 }

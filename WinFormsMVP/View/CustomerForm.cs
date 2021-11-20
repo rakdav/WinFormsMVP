@@ -17,6 +17,9 @@ namespace WinFormsMVP.View
         public CustomerForm()
         {
             InitializeComponent();
+            //textBox1.ReadOnly = !_isEditMode;
+            //textBox2.ReadOnly = !_isEditMode;
+            //textBox3.ReadOnly = !_isEditMode;
         }
 
         public IList<string> CustomerList 
@@ -70,6 +73,11 @@ namespace WinFormsMVP.View
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Presenter.UpdateCustomerListView(listBox1.SelectedIndex);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Presenter.AddCustomer();
         }
     }
 }

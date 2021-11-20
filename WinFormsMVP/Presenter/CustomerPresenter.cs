@@ -42,5 +42,11 @@ namespace WinFormsMVP.Presenter
             _repository.SaveCustomer(_view.SelectedCustomer,customer);
             UpdateCustomerListView();
         }
+        public void AddCustomer()
+        {
+            Customer customer = new Customer { Name = _view.CustomerName, Address = _view.Address, Phone = _view.Phone };
+            _repository.AddCustomer(customer);
+            UpdateCustomerListView();
+        }
     }
 }
